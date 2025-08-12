@@ -1,0 +1,31 @@
+{
+  "name": "lambdas-bovichain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx ts-node index.ts",
+    "compile": "npx tsc",
+    "zip": "jar -cfM out/function.zip dist package.json",
+    "build": "npm run build:mint && npm run build:search",
+    "build:mint": "esbuild src/handlers/mint.ts --bundle --platform=node --target=node22 --outfile=dist/mint.js",
+    "build:search": "esbuild src/handlers/search.ts --bundle --platform=node --target=node22 --outfile=dist/search.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-kms": "^3.864.0",
+    "aws-lambda": "^1.0.7",
+    "dotenv": "^16.5.0",
+    "ethers": "^5.3.0",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.17",
+    "esbuild": "^0.25.4",
+    "npm-build-zip": "^1.0.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

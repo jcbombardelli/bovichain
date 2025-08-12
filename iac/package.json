@@ -1,5 +1,5 @@
 {
-  "name": "bovichain",
+  "name": "iac-bovichain",
   "version": "0.1.0",
   "bin": {
     "bovichain": "bin/bovichain.js"
