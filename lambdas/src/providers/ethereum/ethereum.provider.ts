@@ -47,14 +47,18 @@ export class EthereumProvider {
     const wallet = new Wallet(privateKey, this.provider);
     const contract = new Contract(this.contractAddress, abi, wallet);
 
-    //const estimatedGasLimit = await contract.estimateGas.mint(Number(params.id), params.name, JSON.stringify(params.data));
-    //console.log(`Gas Limit estimated in: ${estimatedGasLimit.toString()}`);
+    const gasEstimated = await this.estimateGas(contract, 'mint', Number(params.id), params.name, JSON.stringify(params.data));
+    const gasEstimatedLimit = gasEstimated.mul(120).div(100);
+    const gasPrice = await this.provider.getGasPrice();
+
+    logger.info(`Estimated gas for mint: ${gasEstimated.toString()}`);
+    logger.info(`Estimated gas limit for mint: ${gasEstimatedLimit.toString()}`);
+    logger.info(`Current gas price: ${gasPrice.toString()}`);
 
     try {
       const tx = await contract.mint(Number(params.id), params.name, JSON.stringify(params.data), {
-      //gasLimit: estimatedGasLimit, // ajuste se necessário
-      //maxFeePerGas: ethers.utils.parseUnits('26', 'gwei'), // total máximo de gas (incluso base + tip)
-      //maxPriorityFeePerGas: ethers.utils.parseUnits('25', 'gwei'), // gorjeta para validadores
+      gasLimit: gasEstimatedLimit,
+      gasPrice: gasPrice,
     })
 
     return {
@@ -80,6 +84,15 @@ export class EthereumProvider {
     
     const prepareResponse = Buffer.from(result, 'base64').toString('utf8');
     return prepareResponse;
+  }
+
+  private async estimateGas(contract: Contract, methodName: string, ...args: any[]): Promise<ethers.BigNumber> {
+    try {
+      return await contract.estimateGas[methodName](...args);
+    } catch (error) {
+      logger.error(`Error estimating gas for ${methodName}: ${error}`);
+      throw error;
+    }
   }
  
 }
