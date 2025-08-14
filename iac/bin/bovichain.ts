@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
-import { BovichainStack } from '../lib/bovichain-stack';
+import { BovichainStack } from '../lib/bovichain.stack';
+
+import path from 'node:path';
+import * as dotenv from 'dotenv';
+
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 const app = new cdk.App();
 new BovichainStack(app, 'BovichainStack', {
