@@ -22,10 +22,15 @@
     "strictPropertyInitialization": false,
     "typeRoots": [
       "./node_modules/@types"
-    ]
+    ],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
   },
   "exclude": [
     "node_modules",
-    "cdk.out"
+    "cdk.out",
+    "**/*.d.ts",
+    "coverage"
   ]
 }

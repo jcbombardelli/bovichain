@@ -18,7 +18,7 @@ importers:
         specifier: ^16.5.0
         version: 16.5.0
       ethers:
-        specifier: ^5.3.0
+        specifier: ^5.8.0
         version: 5.8.0
       winston:
         specifier: ^3.17.0
