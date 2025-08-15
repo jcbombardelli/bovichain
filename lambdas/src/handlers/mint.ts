@@ -1,10 +1,10 @@
 import { KMSProvider } from '../providers/aws/kms.provider';
 import { EthereumProvider } from '../providers/ethereum/ethereum.provider';
-import { MintRequestHandlerDTO, MintResponsenHandlerDTO } from '../types';
+import { MintRequestHandlerDTO, MintResponseHandlerDTO } from '../types';
 import logger from '../utils/logger.util';
 
 
-export const handler = async (event: MintRequestHandlerDTO): Promise<MintResponsenHandlerDTO> => {
+export const handler = async (event: MintRequestHandlerDTO): Promise<MintResponseHandlerDTO> => {
 
   if(event.id === undefined || event.id === null) return {body: "id is required", statusCode: 400};
   if(Number(event.id) < 1) return {body: "id must be positive", statusCode: 400};

@@ -1,13 +1,6 @@
 import { EthereumProvider } from '../providers/ethereum/ethereum.provider';
+import { SearchRequestHandlerDTO, SearchResultHandlerDTO } from '../types';
 import logger from '../utils/logger.util';
-
-
-export type SearchRequestHandlerDTO = {
-  queryStringParameters: { id: string };
-  requestContext?: any;
-  [key: string]: Record<string, any>;
-};
-export type SearchResultHandlerDTO = any;
 
 
 export const handler = async (event: SearchRequestHandlerDTO): Promise<SearchResultHandlerDTO> => {
@@ -20,9 +13,19 @@ export const handler = async (event: SearchRequestHandlerDTO): Promise<SearchRes
   if(!id)
     return { statusCode: 400, body: 'id is required' };
 
+    // Somente inteiros positivos
+  if (!/^\d+$/.test(id)) {
+    return { statusCode: 400, body: 'id must be a positive integer' };
+  }
+
+  const idNum = Number(id);
+  if (!Number.isSafeInteger(idNum)) {
+    return { statusCode: 400, body: 'id is out of range' };
+  }
+
   try {
     const ethereumProvider = new EthereumProvider();
-    const response = await ethereumProvider.tokenURI(Number(id));
+    const response = await ethereumProvider.tokenURI(idNum);
 
     logger.info(`Ethereum provider response: ${response}`);
     return { statusCode: 200, body: response };
