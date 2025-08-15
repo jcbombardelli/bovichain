@@ -29,8 +29,8 @@ export const handler = async (event: MintRequestHandlerDTO): Promise<MintRespons
 
     return {
       body: response,
-      statusCode: 200
-    } as MintResponsenHandlerDTO;
+      statusCode: 200,
+    } as MintResponseHandlerDTO;
 
   } catch (error) {
     logger.error(`Error occurred while processing request: ${error}`);

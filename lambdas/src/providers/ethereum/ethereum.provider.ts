@@ -20,7 +20,7 @@ export type MintResult = {
 
 export class EthereumProvider {
 
-  private provider: ethers.providers.JsonRpcProvider;
+  private provider: ethers.JsonRpcProvider;
   private contractAddress: string;
   
   constructor() {
@@ -35,7 +35,7 @@ export class EthereumProvider {
       logger.error(`Environment variable POLYGON_RPC is required`);
       throw new Error('Environment variable POLYGON_RPC is required')
     }
-    this.provider = new ethers.providers.JsonRpcProvider(process.env.POLYGON_RPC)
+    this.provider = new ethers.JsonRpcProvider(process.env.POLYGON_RPC)
   }
 
   public async getBlockByNumber(blockNumber?: number) {
@@ -48,12 +48,12 @@ export class EthereumProvider {
     const contract = new Contract(this.contractAddress, abi, wallet);
 
     const gasEstimated = await this.estimateGas(contract, 'mint', Number(params.id), params.name, JSON.stringify(params.data));
-    const gasEstimatedLimit = gasEstimated.mul(120).div(100);
-    const gasPrice = await this.provider.getGasPrice();
+    const gasEstimatedLimit = gasEstimated * BigInt(120) / BigInt(100);
+    const gasPrice = (await this.provider.getFeeData()).gasPrice;
 
     logger.info(`Estimated gas for mint: ${gasEstimated.toString()}`);
     logger.info(`Estimated gas limit for mint: ${gasEstimatedLimit.toString()}`);
-    logger.info(`Current gas price: ${gasPrice.toString()}`);
+    logger.info(`Current gas price: ${gasPrice}`);
 
     try {
       const tx = await contract.mint(Number(params.id), params.name, JSON.stringify(params.data), {
@@ -85,10 +85,9 @@ export class EthereumProvider {
     const prepareResponse = Buffer.from(result, 'base64').toString('utf8');
     return prepareResponse;
   }
-
-  private async estimateGas(contract: Contract, methodName: string, ...args: any[]): Promise<ethers.BigNumber> {
+  private async estimateGas(contract: Contract, methodName: string, ...args: any[]): Promise<bigint> {
     try {
-      return await contract.estimateGas[methodName](...args);
+      return await contract[methodName].estimateGas(...args);
     } catch (error) {
       logger.error(`Error estimating gas for ${methodName}: ${error}`);
       throw error;
