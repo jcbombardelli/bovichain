@@ -27,7 +27,6 @@ export const handler = async (event: SearchRequestHandlerDTO): Promise<SearchRes
     const ethereumProvider = new EthereumProvider();
     const response = await ethereumProvider.tokenURI(idNum);
 
-    logger.info(`Ethereum provider response: ${response}`);
     return { statusCode: 200, body: response };
   } catch (error) {
     logger.error(`Error occurred while fetching token URI: ${error}`);

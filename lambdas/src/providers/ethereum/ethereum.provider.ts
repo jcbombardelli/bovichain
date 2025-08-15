@@ -2,7 +2,7 @@ import { Contract, ethers, Wallet } from 'ethers';
 import { rpcUrlByNetworkName } from './ethereum.networks';
 import 'dotenv/config';
 
-import { abi } from '../../../../contracts/artifacts/contracts/BOVICHAIN.sol/BOVICHAIN.json';
+import { abi } from '../../../../contracts/artifacts/contracts/Bovichain.sol/BoviChain.json';
 import logger from '../../utils/logger.util';
 
 export type MintParams = {

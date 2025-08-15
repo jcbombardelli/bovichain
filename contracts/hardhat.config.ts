@@ -5,7 +5,7 @@ import "@nomicfoundation/hardhat-toolbox";
 import * as dotenv from 'dotenv'
 dotenv.config({path: '../.env' });
 
-if(!process.env.PRIVATE_KEY) {
+if(!process.env.HH_PRIVATE_KEY) {
   throw new Error("Please set your PRIVATE_KEY in a .env file");
 }
 
@@ -23,16 +23,16 @@ const config: HardhatUserConfig = {
     hardhat: {},
     local: {
       url: 'http://127.0.0.1:8545',
-      accounts: { mnemonic: process.env.MNEMONICS || "" },
+      accounts: { mnemonic: process.env.HH_MNEMONICS || "" },
       gasPrice: 0,
     },
     polygon_amoy: {
       url: process.env.POLYGON_RPC_TESTNET || "",
-      accounts: [process.env.PRIVATE_KEY || "0x0000000000000000000000000000000000000000000000000000000000000000"],
+      accounts: [process.env.HH_PRIVATE_KEY || "0x0000000000000000000000000000000000000000000000000000000000000000"],
     },
     polygon_pos: {
       url: process.env.POLYGON_RPC || "",
-      accounts: [process.env.PRIVATE_KEY],
+      accounts: [process.env.HH_PRIVATE_KEY],
     },
   },
   mocha: {
