@@ -57,8 +57,8 @@ export class EthereumProvider {
         link: `${txExplorerUrl}/${ethers.ZeroHash}`
       };
     }
-
-  
+    else
+      delete params?.data?.dryrun;
 
     const contract = new Contract(this.contractAddress, abi, wallet);
 

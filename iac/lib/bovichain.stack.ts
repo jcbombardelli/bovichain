@@ -55,6 +55,7 @@ export class BovichainStack extends cdk.Stack {
         PRIVATE_KEY: process.env.PRIVATE_KEY || '',
         CONTRACT_BOVICHAIN: process.env.CONTRACT_BOVICHAIN || '',
         POLYGON_RPC: process.env.POLYGON_RPC || '',
+        POLYGONSCAN_URL: process.env.POLYGONSCAN_URL || '',
         AWS_KMS_KEY_ID: process.env.AWS_KMS_KEY_ID || ''
       },
     });

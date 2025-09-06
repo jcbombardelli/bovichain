@@ -6,9 +6,18 @@ import logger from '../utils/logger.util';
 
 export const handler = async (event: MintRequestHandlerDTO): Promise<MintResponseHandlerDTO> => {
 
-  if(event.id === undefined || event.id === null) return {body: "id is required", statusCode: 400};
-  if(Number(event.id) < 1) return {body: "id must be positive", statusCode: 400};
-  if(!event.name || event.name === "") return {body: "name is required", statusCode: 400};
+  if(event.id === undefined || event.id === null) {
+    logger.error('id is required', event);
+    return {body: "id is required", statusCode: 400};
+  }
+  if(Number(event.id) < 1) {
+    logger.error('id must be positive', event);
+    return {body: "id must be positive", statusCode: 400};
+  }
+  if(!event.name || event.name === "") {
+    logger.error('name is required', event);
+    return {body: "name is required", statusCode: 400};
+  }
 
   if(!process.env.PRIVATE_KEY) {
     logger.error('Request cannot be processed due to missing PRIVATE_KEY.');
@@ -28,7 +37,7 @@ export const handler = async (event: MintRequestHandlerDTO): Promise<MintRespons
     };
 
     logger.debug(mintBodyRequest);
-    
+
     const response = await ethereumProvider.mint(
       mintBodyRequest, 
       decryptedKey,

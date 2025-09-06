@@ -35,3 +35,4 @@ Sistema blockchain para rastreabilidade de ativos agropecuários, com infraestru
 - [docs/api.md](docs/api.md)
 - [docs/contracts.md](docs/contracts.md)
 - [docs/deploy.md](docs/deploy.md)
+- [postman api](https://warped-capsule-602725.postman.co/workspace/Bombardelli~6b413d79-43f6-45e2-8476-593d77280dac/collection/850927-a381503a-9a9e-4bf1-a88e-08631b4b0823?action=share&creator=850927&active-environment=850927-895f6c7e-d934-4767-b5ef-f0532d24aefc)
