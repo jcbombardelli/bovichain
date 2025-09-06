@@ -8,7 +8,18 @@ export class KMSProvider {
   private kmsClient: KMSClient;
 
   constructor() {
-    this.kmsClient = new KMSClient({ region: process.env.AWS_REGION });
+    const { AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } = process.env;
+
+    this.kmsClient = new KMSClient({
+      region: AWS_REGION,
+      ...(AWS_ACCESS_KEY_ID && AWS_SECRET_ACCESS_KEY ? {
+        credentials: {
+          accessKeyId: AWS_ACCESS_KEY_ID,
+          secretAccessKey: AWS_SECRET_ACCESS_KEY,
+        }
+      } : {}),
+    });
+
   }
 
   async decrypt(encryptedData: string): Promise<string> {

@@ -10,7 +10,9 @@
     "test": "jest",
     "cdk": "cdk",
     "encrypt": "ts-node scripts/encrypt.kms.ts",
-    "decrypt": "ts-node scripts/decrypt.kms.ts"
+    "decrypt": "ts-node scripts/decrypt.kms.ts",
+    "cdk:bootstrap": "npx cdk bootstrap --profile bovichain",
+    "cdk:deploy": "npx cdk deploy --profile bovichain"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",

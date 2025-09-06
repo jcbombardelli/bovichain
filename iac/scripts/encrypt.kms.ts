@@ -3,13 +3,13 @@ import { EncryptCommand, KMSClient } from "@aws-sdk/client-kms";
 import { randomUUID } from 'node:crypto';
 import { argv } from 'node:process';
 
-const KEY_ID = process.env.AWS_KMS_KEY_ID || '9390100b-5b24-4cc0-ad45-e24f5439e40b';
+const KEY_ID = process.env.AWS_KMS_KEY_ID || '934641e7-14ad-43ef-ab5e-cff88f0b49c7';
 const REGION = process.env.AWS_REGION || 'us-east-1';
 
 (async () => {
   const plaintext = argv[2] || randomUUID().toString();
 
-  const kmsClient = new KMSClient({ region: REGION });
+  const kmsClient = new KMSClient({ region: REGION, profile: 'bovichain' });
 
   const command = new EncryptCommand({
     KeyId: KEY_ID,

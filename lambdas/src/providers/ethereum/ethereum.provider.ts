@@ -1,5 +1,4 @@
 import { Contract, ethers, Wallet } from 'ethers';
-import { rpcUrlByNetworkName } from './ethereum.networks';
 import 'dotenv/config';
 
 import { abi } from '../../../../contracts/artifacts/contracts/Bovichain.sol/BoviChain.json';
@@ -16,6 +15,7 @@ export type MintResult = {
   to: string;
   hash: string;
   data: any
+  link?: string;
 }
 
 export class EthereumProvider {
@@ -45,16 +45,20 @@ export class EthereumProvider {
   public async mint(params: MintParams, privateKey: string, dryrun: boolean = false): Promise<MintResult> {
 
     const wallet = new Wallet(privateKey, this.provider);
+    const txExplorerUrl = `${process.env.POLYGONSCAN_URL}/tx`;
 
     if(dryrun) {
       logger.info('Dryrun mode enabled for mint');
       return {
         from: wallet.address,
         to: ethers.ZeroAddress,
-        hash: '0x0',
+        hash: ethers.ZeroHash,
         data: params.data,
+        link: `${txExplorerUrl}/${ethers.ZeroHash}`
       };
     }
+
+  
 
     const contract = new Contract(this.contractAddress, abi, wallet);
 
@@ -77,14 +81,13 @@ export class EthereumProvider {
       hash: tx.hash,
       to: tx.to,
       data: params.data,
+      link : `${txExplorerUrl}/${tx.hash}`
     }
 
     } catch (error: any) {
       console.error(error)
       throw new Error(error.body)
     }
- 
-
 
   }
 

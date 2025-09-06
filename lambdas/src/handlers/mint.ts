@@ -20,13 +20,20 @@ export const handler = async (event: MintRequestHandlerDTO): Promise<MintRespons
     const decryptedKey = await kmsProvider.decrypt(process.env.PRIVATE_KEY);
 
     const ethereumProvider = new EthereumProvider();
-    const response = await ethereumProvider.mint({
+
+    const mintBodyRequest = {
       data: JSON.stringify(event),
       id: event.id,
       name: event.name,
-    }, 
-    decryptedKey,
-    event.queryStringParameters?.dryrun === 'true');
+    };
+
+    logger.debug(mintBodyRequest);
+    
+    const response = await ethereumProvider.mint(
+      mintBodyRequest, 
+      decryptedKey,
+      event.queryStringParameters?.dryrun === 'true'
+    );
 
     return {
       body: response,

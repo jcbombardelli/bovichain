@@ -82,8 +82,8 @@ const obj = {
 
 (async function run() {
   dotenv.config({ path: '../.env' });
-  const lambda = await mint.handler({ queryStringParameters: { dryrun: 'true' }, ...obj }) as any;
+  //const lambda = await mint.handler({ queryStringParameters: { dryrun: 'false' }, ...obj }) as any;
 
-  //const lambda = await search.handler({ queryStringParameters: { id: '1' } });
+  const lambda = await search.handler({ queryStringParameters: { id: '12' } });
   console.log(lambda)
 })()
