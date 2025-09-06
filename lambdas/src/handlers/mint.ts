@@ -10,7 +10,6 @@ export const handler = async (event: MintRequestHandlerDTO): Promise<MintRespons
   if(Number(event.id) < 1) return {body: "id must be positive", statusCode: 400};
   if(!event.name || event.name === "") return {body: "name is required", statusCode: 400};
 
-
   if(!process.env.PRIVATE_KEY) {
     logger.error('Request cannot be processed due to missing PRIVATE_KEY.');
     return { statusCode: 500, body: 'Request cannot be processed.' };
@@ -25,12 +24,14 @@ export const handler = async (event: MintRequestHandlerDTO): Promise<MintRespons
       data: JSON.stringify(event),
       id: event.id,
       name: event.name,
-    }, decryptedKey);
+    }, 
+    decryptedKey,
+    event.queryStringParameters?.dryrun === 'true');
 
     return {
       body: response,
       statusCode: 200,
-    } as MintResponseHandlerDTO;
+    } as unknown as MintResponseHandlerDTO;
 
   } catch (error) {
     logger.error(`Error occurred while processing request: ${error}`);

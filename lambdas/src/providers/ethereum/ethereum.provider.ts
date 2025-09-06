@@ -42,9 +42,20 @@ export class EthereumProvider {
     return await this.provider.getBlock(blockNumber || 'latest');
   }
 
-  public async mint(params: MintParams, privateKey: string): Promise<MintResult> {
+  public async mint(params: MintParams, privateKey: string, dryrun: boolean = false): Promise<MintResult> {
 
     const wallet = new Wallet(privateKey, this.provider);
+
+    if(dryrun) {
+      logger.info('Dryrun mode enabled for mint');
+      return {
+        from: wallet.address,
+        to: ethers.ZeroAddress,
+        hash: '0x0',
+        data: params.data,
+      };
+    }
+
     const contract = new Contract(this.contractAddress, abi, wallet);
 
     const gasEstimated = await this.estimateGas(contract, 'mint', Number(params.id), params.name, JSON.stringify(params.data));

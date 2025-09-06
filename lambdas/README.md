@@ -1,14 +1,29 @@
-# poc-BOVICHAIN
+# Lambdas
 
-### Public Address
-`0xB37A0873b35403C9FA6dFf2D76d6e5000258Ce22`
+Funções AWS Lambda responsáveis pela lógica de negócio do BoviChain.
 
-## References
+## Estrutura
+- `src/handlers/` — Handlers principais (`mint.ts`, `search.ts`)
+- `src/dto/` — Data Transfer Objects e validações
+- `src/providers/aws/` — Integração com AWS (KMS)
+- `src/providers/ethereum/` — Integração com Ethereum
+- `test/` — Testes unitários (Jest)
 
-[Lambda URL](https://us-east-2.console.aws.amazon.com/lambda/home?region=us-east-2#/functions/lambda-poc-BOVICHAIN?newFunction=true&tab=code)
+## Build
+```bash
+pnpm install
+pnpm run build
+```
 
-[Alchemy Project](https://dashboard.alchemy.com/apps/igx6lo4l8y1u8pmy/metrics)
+## Testes
+```bash
+pnpm test
+```
 
+## Observações
+- O código é escrito em TypeScript e transpilado para JavaScript antes do deploy.
+- As funções utilizam DTOs para validação de entrada.
+- O provider KMS é usado para criptografia de dados sensíveis.
 [Alchemy Faucet Testnet](https://www.alchemy.com/faucets/polygon-amoy)
 [StakePool Faucet](https://faucet.stakepool.dev.br/amoy)
 

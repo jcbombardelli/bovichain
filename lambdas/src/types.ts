@@ -4,7 +4,12 @@ export type ResponseDTO<T> = {
 }
 
 
-export type MintRequestHandlerDTO = any
+export type MintRequestHandlerDTO = {
+  queryStringParameters: { dryrun: string };
+  requestContext?: any;
+  [key: string]: string | any;
+}
+
 export type MintResponseHandlerDTO = ResponseDTO<string>;
 
 export type SearchRequestHandlerDTO = {
@@ -12,6 +17,7 @@ export type SearchRequestHandlerDTO = {
   requestContext?: any;
   [key: string]: Record<string, any>;
 };
+
 export type SearchResultHandlerDTO = ResponseDTO<string>;
 
 
